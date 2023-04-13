@@ -5,7 +5,7 @@ const authRouter = require("./auth.route");
 const commentRouter = require("./comments.route");
 
 router.use("/", authRouter);
-router.use("/book", commentRouter);
+router.use("/comments", commentRouter);
 
 module.exports = router;
 

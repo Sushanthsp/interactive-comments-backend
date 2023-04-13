@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const mongoosePaginate = require("mongoose-paginate-v2");
 
-const commentSchema = new Schema({
+const replySchema = new Schema({
     content: {
         type: String,
         required: true
@@ -11,18 +11,14 @@ const commentSchema = new Schema({
         type: Number,
         required: true
     },
-    replies: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'replySchema'
-    }],
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'usersSchema'
-    },
+    }
 }, {
     timestamps: true
 });
 
-commentSchema.plugin(mongoosePaginate);
+replySchema.plugin(mongoosePaginate);
 
-module.exports = mongoose.model("commentSchema", commentSchema);
+module.exports = mongoose.model("replySchema", replySchema);

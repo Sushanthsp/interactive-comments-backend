@@ -3,15 +3,7 @@ const Joi = require('joi');
 // Validation middleware for postComment
 module.exports.postComment = async (request, response, next) => {
     const commentSchema = Joi.object().keys({
-        content: Joi.string().required(),
-        score: Joi.number().required(),
-        replies: Joi.array().items(
-            Joi.object().keys({
-                content: Joi.string().required(),
-                score: Joi.number().required(),
-                replyingTo: Joi.string().optional()
-            })
-        ).optional()
+        content: Joi.string().required()
     });
 
     const { error } = commentSchema.validate(request.body);
@@ -22,13 +14,11 @@ module.exports.postComment = async (request, response, next) => {
         return next();
     }
 };
-
 
 module.exports.updateComment = async (request, response, next) => {
     const commentSchema = Joi.object().keys({
         content: Joi.string().required(),
-        score: Joi.number().required(),
-        replies: Joi.array().items(
+         replies: Joi.array().items(
             Joi.object().keys({
                 content: Joi.string().required(),
                 score: Joi.number().required(),
@@ -46,63 +36,60 @@ module.exports.updateComment = async (request, response, next) => {
     }
 };
 
-module.exports.deleteComment = async (request, response, next) => {
-    const { id } = request.params;
+module.exports.updateScore = async (request, response, next) => {
+    const commentSchema = Joi.object().keys({
+        score: Joi.number().required()
+    });
 
-    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-        return response.status(422).json({ status: false, message: "Invalid comment ID", data: null });
+    const { error } = commentSchema.validate(request.body);
+
+    if (error) {
+        return response.status(422).json({ status: false, message: error.details[0].message, data: null });
     } else {
         return next();
     }
 };
 
-module.exports.getComment = async (request, response, next) => {
-    const { id } = request.params;
+module.exports.postReply = async (request, response, next) => {
+    const commentSchema = Joi.object().keys({
+        content: Joi.string().required(),
+     })
+    const { error } = commentSchema.validate(request.body);
 
-    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-        return response.status(422).json({ status: false, message: "Invalid comment ID", data: null });
+    if (error) {
+        return response.status(422).json({ status: false, message: error.details[0].message, data: null });
     } else {
         return next();
     }
 };
 
-// Joi validation schema for reply object
-const replySchema = Joi.object().keys({
-  content: Joi.string().required(),
-  replies: Joi.array().default([])
-});
-
-// Joi validation for postReply
-module.exports.postReplyValidation = (req, res, next) => {
-  const schema = Joi.object().keys({
-    commentId: Joi.string().required(),
-    reply: replySchema.required()
-  });
-
-  const { error } = schema.validate(req.body);
-  if (error) {
-    return res
-      .status(422)
-      .json({ status: false, message: error.details[0].message, data: null });
-  }
-
-  next();
-};
-
-// Joi validation for updateReply
 module.exports.updateReplyValidation = (req, res, next) => {
-  const schema = Joi.object().keys({
-    commentId: Joi.string().required(),
-    replyId: Joi.string().required(),
-    reply: replySchema.required()
-  });
+    const schema = Joi.object().keys({
+        content: Joi.string().required(),
+    });
 
-  const { error } = schema.validate(req.body);
-  if (error) {
-    return res
-      .status(422)
-      .json({ status: false, message: error.details[0].message, data: null });
-  }
+    const { error } = schema.validate(req.body);
+    if (error) {
+        return res
+            .status(422)
+            .json({ status: false, message: error.details[0].message, data: null });
+    }
 
-  next();
+    next();
 };
+
+module.exports.updateReplyScoreValidation = (req, res, next) => {
+    const schema = Joi.object().keys({
+        score: Joi.number().required(),
+    });
+
+    const { error } = schema.validate(req.body);
+    if (error) {
+        return res
+            .status(422)
+            .json({ status: false, message: error.details[0].message, data: null });
+    }
+
+    next();
+};
+

@@ -2,16 +2,23 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const mongoosePaginate = require("mongoose-paginate-v2");
 
-const Users = new Schema(
+const UsersSchema = new Schema(
     {
       name: {
         type: String,
         required: true,
       },
-      number: {
-        type: Number,
+      email: {
+        type: String,
         required: true,
-        unique: true
+        unique: true,
+        validate: {
+          validator: function (value) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(value);
+          },
+          message: 'Invalid email address',
+        },
       },
       otp: {
         type: Number,
@@ -29,6 +36,6 @@ const Users = new Schema(
     },
   );
   
-Users.plugin(mongoosePaginate);
+UsersSchema.plugin(mongoosePaginate);
 
-module.exports = mongoose.model("Users", Users);
+module.exports = mongoose.model("usersSchema", UsersSchema);

@@ -1,4 +1,4 @@
-const Users = require("../models/users.model");
+const UsersSchema = require("../models/users.model");
 const { setPassword, verifyPassword } = require('../../helper/password.helper');
 const jwt = require('jsonwebtoken');
 const config = require('../../config/config');
@@ -7,7 +7,7 @@ module.exports.register = async (request, response, next) => {
     try {
         const { name, email, password } = request.body;
 
-        const checkUser = await Users.findOne({
+        const checkUser = await UsersSchema.findOne({
             email: email,
         })
         if (checkUser) {
@@ -24,7 +24,7 @@ module.exports.register = async (request, response, next) => {
         const otp = '123456';
 
         //CREATING USER IN MONGODB
-        newUsers = await Users.create({
+        newUsers = await UsersSchema.create({
             name,
             email,
             password: pass,
@@ -57,7 +57,7 @@ module.exports.login = async (request, response, next) => {
     try {
         const { email, password } = request.body;
 
-        const userData = await Users.findOne({
+        const userData = await UsersSchema.findOne({
             email: email,
         }).select("+password");
 
@@ -99,7 +99,7 @@ module.exports.verifyOtp = async (request, response, next) => {
     try {
         const { user, otp } = request.body;
 
-        const userData = await Users.findById(user?._id);
+        const userData = await UsersSchema.findById(user?._id);
 
         if (!userData) {
             return response.status(404).json({

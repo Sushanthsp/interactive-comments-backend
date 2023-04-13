@@ -4,14 +4,18 @@ const commentsController = require("../controller/comments.controller");
 const commentsValidation = require("../validator/comments.validator");
 const { verifyJWTToken } = require("../../middleware/jwt.middleware");
 
-router.post("/comments", commentsValidation.postComment,verifyJWTToken, commentsController.postComment);
-router.put("/comments", commentsValidation.updateComment, verifyJWTToken, commentsController.updateComment);
-router.delete("/comments/:id",commentsValidation.deleteComment, verifyJWTToken, commentsController.deleteComment);
-router.get("/comments", commentsValidation.getComment, commentsController.getComment);
+router.post("/", commentsValidation.postComment,verifyJWTToken, commentsController.postComment);
+router.put("/:id", commentsValidation.updateComment, verifyJWTToken, commentsController.updateComment);
+router.delete("/:id", verifyJWTToken, commentsController.deleteComment);
+router.get("/",verifyJWTToken, commentsController.getComment);
+router.put("/score/:id", commentsValidation.updateScore, verifyJWTToken, commentsController.updateScore);
 
 
-router.put("/reploy/:id", commentsValidation.postReplyValidation, verifyJWTToken, commentsController.postReply);
-router.put("/reploy/:id/:replyId",commentsValidation.updateReplyValidation, verifyJWTToken, commentsController.updateComment);
-router.delete("/reploy/:id/:replyId", verifyJWTToken, commentsController.deleteReply);
+router.put("/reply/:id", commentsValidation.postReply, verifyJWTToken, commentsController.postReply);
+router.put("/reply/:id/:replyId",commentsValidation.updateReplyValidation, verifyJWTToken, commentsController.updateReply);
+router.delete("/reply/:id", verifyJWTToken, commentsController.deleteReply);
+
+router.put("/reply/score/:id/:replyId",commentsValidation.updateReplyScoreValidation, verifyJWTToken, commentsController.updateReplyScore);
+
 
 module.exports = router;

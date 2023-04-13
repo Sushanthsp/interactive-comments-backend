@@ -3,7 +3,7 @@ const Joi = require('joi')
 module.exports.register = async (request, response, next) => {
     let rules = Joi.object().keys({
         name: Joi.string().min(3).max(30).required(),
-        email: Joi.email().required(),
+        email:  Joi.string().email().required(),
         password: Joi.string().min(3).max(15).required()
     });
 
@@ -19,7 +19,7 @@ module.exports.register = async (request, response, next) => {
 
 module.exports.login = async (request,response,next) =>{
     let rules = Joi.object().keys({
-        email: Joi.email().required(),
+        email:  Joi.string().email().required(),
         password: Joi.string().min(3).max(15).required()
     });
 
