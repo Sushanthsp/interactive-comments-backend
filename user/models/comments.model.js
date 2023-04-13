@@ -33,6 +33,6 @@ const commentSchema = new Schema({
     timestamps: true
 });
 
-BookingSchema.plugin(mongoosePaginate);
+commentSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model("commentSchema", commentSchema);

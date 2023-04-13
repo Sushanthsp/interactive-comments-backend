@@ -5,8 +5,8 @@ const config = {
     DATABASE_URL: process.env.DATABASE_URL,
     JWT_AUTH_TOKEN: process.env.JWT_AUTH_TOKEN,
     SALT_ROUND: process.env.SALT_ROUND,
-    GCP_PROJECT_ID:process.env.GCP_PROJECT_ID,
-    GCP_BUCKET_NAME:process.env.GCP_BUCKET_NAME,
+    MONGO_PROJECT_ID:process.env.MONGO_PROJECT_ID,
+    MONGO_BUCKET_NAME:process.env.MONGO_BUCKET_NAME,
 };
 
 module.exports = config;

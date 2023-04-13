@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const commentSchema = require("../models/comment.model");
+const commentSchema = require("../models/comments.model");
 
 module.exports.postComment = async (req, res, next) => {
     try {

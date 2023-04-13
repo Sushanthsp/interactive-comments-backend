@@ -23,12 +23,6 @@ const Users = new Schema(
         select: false,
         required: true,
       },
-      bookings: [
-        {
-          type: Schema.Types.ObjectId,
-          ref: "Booking",
-        },
-      ],
     },
     {
       timestamps: true,
