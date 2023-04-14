@@ -178,11 +178,14 @@ module.exports.deleteComment = async (req, res, next) => {
 module.exports.getComment = async (req, res, next) => {
     try {
         // Find all comments and populate user field, replies array with user, and replies array with replies recursively
-        const comments = await commentSchema.find().populate({
+        const comments = await commentSchema.find()
+        .sort({ score: -1 }) 
+        .populate({
             path: "user",
             model: "usersSchema"
         }).populate({
             path: "replies",
+            options: { sort: { score: -1 } },
             populate: [{
                 path: "user",
                 model: "usersSchema"
