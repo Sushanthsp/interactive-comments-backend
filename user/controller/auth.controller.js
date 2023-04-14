@@ -36,7 +36,7 @@ module.exports.register = async (request, response, next) => {
             status: true,
             message: "User registered successfully",
             data: {
-                userId: newUsers._id,
+                _id: newUsers._id,
                 name: newUsers.name,
                 email: newUsers.email,
                 token:token
