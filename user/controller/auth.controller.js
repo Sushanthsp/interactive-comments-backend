@@ -28,7 +28,7 @@ module.exports.register = async (request, response, next) => {
             name,
             email,
             password: pass,
-            otp: otp
+            otp: otp,
         });
 
         const token = jwt.sign(JSON.stringify(newUsers), config.JWT_AUTH_TOKEN);
