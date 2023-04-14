@@ -160,7 +160,7 @@ module.exports.deleteComment = async (req, res, next) => {
                 .json({ status: false, message: "unauthorized to delete", data: null });
         }
         // Delete comment by ID
-        await comment.remove();
+        await comment.deleteOne();
 
 
         // Return response
